@@ -5,7 +5,7 @@ This directory contains an experimental sample Unity (Unity 2018.4.9f1) Plugin, 
 the experimental TF Lite C API. The sample demonstrates running inference within
 Unity by way of a C# `Interpreter` wrapper.
 
-Unity 2019.2.11f1
+Unity 2019.3
 
 ## How to build tensorflow lite for Unity
 
