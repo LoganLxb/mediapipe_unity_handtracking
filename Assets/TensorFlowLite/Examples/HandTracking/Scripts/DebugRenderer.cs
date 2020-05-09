@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Unity.Mathematics;
+using UnityEngine;
 
 public class DebugRenderer : MonoBehaviour 
 {
@@ -102,4 +104,51 @@ public class DebugRenderer : MonoBehaviour
         cylinder[target].transform.localRotation = rotate;
         cylinder[target].transform.localScale = scale;
     }
+
+    public bool OpenHandPose()
+    {
+        if (sphere.Length==21)
+        {
+           
+            if ((math.abs(Angle(sphere[1].transform.position, sphere[0].transform.position, sphere[2].transform.position)-180)<50.0f)&&
+                (math.abs(Angle(sphere[2].transform.position, sphere[1].transform.position, sphere[3].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[3].transform.position, sphere[2].transform.position, sphere[4].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[6].transform.position, sphere[5].transform.position, sphere[7].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[7].transform.position, sphere[6].transform.position, sphere[8].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[10].transform.position, sphere[9].transform.position, sphere[11].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[11].transform.position, sphere[10].transform.position, sphere[12].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[14].transform.position, sphere[13].transform.position, sphere[15].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[15].transform.position, sphere[14].transform.position, sphere[16].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[18].transform.position, sphere[17].transform.position, sphere[19].transform.position) - 180) < 50.0f) &&
+                (math.abs(Angle(sphere[19].transform.position, sphere[18].transform.position, sphere[20].transform.position) - 180) < 50.0f))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private double Angle(Vector3 cen, Vector3 first, Vector3 second)
+    {
+        double M_PI = 3.1415926535897;
+
+        double ma_x = first.x - cen.x;
+        double ma_y = first.y - cen.y;
+        double ma_z = first.z - cen.z;
+        double mb_x = second.x - cen.x;
+        double mb_y = second.y - cen.y;
+        double mb_z = second.z - cen.z;
+        double v1 = (ma_x * mb_x) + (ma_y * mb_y) + (ma_z * mb_z);
+        double ma_val = Math.Sqrt(ma_x * ma_x + ma_y * ma_y + ma_z * ma_z);
+        double mb_val = Math.Sqrt(mb_x * mb_x + mb_y * mb_y + mb_z * mb_z);
+        double cosM = v1 / (ma_val * mb_val);
+        double angleAMB = Math.Acos(cosM) * 180 / M_PI;
+
+        return angleAMB;
+    }
+
 }

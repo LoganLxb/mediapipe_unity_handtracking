@@ -78,8 +78,9 @@ public class HandTracking : MonoBehaviour
         texture.ReadPixels(new Rect(0, 0, videoTexture.width, videoTexture.height), 0, 0);
         texture.Apply();
         Graphics.SetRenderTarget(null);
-        Debug.Log(texture);
         inferencer.Update(texture);
+        
+        
     }
 
     public void OnRenderObject() 
@@ -91,6 +92,7 @@ public class HandTracking : MonoBehaviour
         { 
             var handLandmarks = inferencer.HandLandmarks;
             debugRenderer.DrawHand3D(handLandmarks);
+            Debug.Log("手势" + debugRenderer.OpenHandPose());
         }
     }
 
