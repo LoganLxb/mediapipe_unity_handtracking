@@ -1,7 +1,7 @@
 # mediapipe_unity_handtracking
 # TF Lite Experimental Unity Plugin
 
-This directory contains an experimental sample Unity (Unity 2018.4.9f1) Plugin, based on
+This directory contains an experimental sample Unity Plugin, based on
 the experimental TF Lite C API. The sample demonstrates running inference within
 Unity by way of a C# `Interpreter` wrapper.
 
