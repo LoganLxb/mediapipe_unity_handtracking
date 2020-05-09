@@ -5,26 +5,55 @@ This directory contains an experimental sample Unity (Unity 2018.4.9f1) Plugin, 
 the experimental TF Lite C API. The sample demonstrates running inference within
 Unity by way of a C# `Interpreter` wrapper.
 
-Note that the native TF Lite plugin(s) *must* be built before using the Unity
-Plugin, and placed in Assets/TensorFlowLite/SDK/Plugins/. For the editor (note
-that this has only been tested on Linux; the syntax may differ on Mac/Windows):
+Unity 2019.2.11f1
+
+## How to build tensorflow lite for Unity
+
+Pre-build library is included. see following instructions if you want to build your own lib.
+
+### macOS
 
 ```sh
-bazel build -c opt --cxxopt=--std=c++11 \
-  //tensorflow/lite/experimental/c:libtensorflowlite_c.so
+# Core Lib
+bazel build -c opt --cxxopt=--std=c++11 tensorflow/lite/experimental/c:libtensorflowlite_c.so
+
+# Use this branch to build metal GPU delegate dynamic library
+# https://github.com/asus4/tensorflow/tree/tflite-macos-metal-delegate
+bazel 'build' -c opt --copt -Os --copt -DTFLITE_GPU_BINARY_RELEASE --copt -fvisibility=hidden --linkopt -s --strip always --cxxopt=-std=c++14 --apple_platform_type=macos '//tensorflow/lite/delegates/gpu:tensorflow_lite_gpu_dylib'
 ```
 
-and for Android:
+then rename libtensorflowlite_c.so to libtensorflowlite_c.bundle
+
+### iOS
+
+Download pre-build framework from CocoaPods
+
+```ruby
+# Sample Podfile
+
+platform :ios, '10.0'
+
+target 'TfLiteSample' do
+    pod 'TensorFlowLiteObjC', '0.0.1-nightly'
+end
+```
 
 ```sh
-bazel build -c opt --cxxopt=--std=c++11 \
-  --crosstool_top=//external:android/crosstool \
-  --host_crosstool_top=@bazel_tools//tools/cpp:toolchain \
-  --cpu=armeabi-v7a \
-  //tensorflow/lite/experimental/c:libtensorflowlite_c.so
+# and build Metal GPU delegete with bitcode option enabled
+bazel build -c opt --cpu ios_arm64 --copt -Os --copt -DTFLITE_GPU_BINARY_RELEASE --copt -fvisibility=hidden --copt=-fembed-bitcode --linkopt -s --strip always --cxxopt=-std=c++14 //tensorflow/lite/delegates/gpu:tensorflow_lite_gpu_framework --apple_platform_type=ios
 ```
 
-If you encounter issues with native plugin discovery on Mac ("Darwin")
-platforms, try renaming `libtensorflowlite_c.so` to `tensorflowlite_c.bundle`.
-Similarly, on Windows you'll likely need to rename `libtensorflowlite_c.so` to
-`tensorflowlite_c.dll`.
+### Android
+
+If you do not have the Android SDK and NDK, intall Android Studio, SDK and NDK.
+
+```sh
+# Configure the Android SDK path by running configure script at repository root
+./configure
+
+# Build experimental
+bazel build -c opt --cxxopt=--std=c++11 --config=android_arm64 //tensorflow/lite/experimental/c:libtensorflowlite_c.so
+
+# Build GPU delegate
+bazel build -c opt --config android_arm64 --copt -Os --copt -DTFLITE_GPU_BINARY_RELEASE --copt -fvisibility=hidden --linkopt -s --strip always //tensorflow/lite/delegates/gpu:libtensorflowlite_gpu_delegate.so
+```
