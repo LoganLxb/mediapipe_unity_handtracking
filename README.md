@@ -9,6 +9,14 @@ Unity 2019.3
 
 ## How to build tensorflow lite for Unity
 
+Note that the native TF Lite plugin(s) *must* be built before using the Unity
+Plugin, and placed in Assets/TensorFlowLite/SDK/Plugins/. For the editor (note
+that the generated shared library name and suffix are platform-dependent):
+
+```sh
+bazel build -c opt //tensorflow/lite/c:tensorflowlite_c
+```
+
 Pre-build library is included. see following instructions if you want to build your own lib.
 
 ### macOS
