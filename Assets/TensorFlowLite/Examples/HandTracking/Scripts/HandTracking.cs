@@ -23,6 +23,8 @@ public class HandTracking : MonoBehaviour
 
     private string deviceName;
     private WebCamTexture webCam;
+    private Quaternion baseRotation;
+    private Quaternion webCamRotation;
 
     void Awake() { QualitySettings.vSyncCount = 0; }
 
@@ -66,6 +68,7 @@ public class HandTracking : MonoBehaviour
             deviceName = devices[0].name;
             webCam = new WebCamTexture(deviceName);            
             renderer.material.mainTexture = webCam;
+            baseRotation = transform.rotation;
             webCam.Play();
             texture = new Texture2D(videoTexture.width, videoTexture.height, TextureFormat.RGB24, false);
         }
@@ -73,12 +76,15 @@ public class HandTracking : MonoBehaviour
 
     void Update() 
     {
+        transform.rotation = baseRotation * Quaternion.AngleAxis(webCam.videoRotationAngle, Vector3.up);
+        webCamRotation = Quaternion.AngleAxis(webCam.videoRotationAngle, Vector3.up);
         Graphics.Blit(webCam, videoTexture);
         Graphics.SetRenderTarget(videoTexture);
         texture.ReadPixels(new Rect(0, 0, videoTexture.width, videoTexture.height), 0, 0);
         texture.Apply();
         Graphics.SetRenderTarget(null);
-        inferencer.Update(texture);
+        if (inferencer != null)
+            inferencer.Update(texture);
         
         
     }
@@ -91,8 +97,9 @@ public class HandTracking : MonoBehaviour
         if (debugHandLandmarks3D)
         { 
             var handLandmarks = inferencer.HandLandmarks;
-            debugRenderer.DrawHand3D(handLandmarks);
-            Debug.Log("手势" + debugRenderer.OpenHandPose());
+            debugRenderer.DrawHand3D(handLandmarks, webCamRotation);
+            if (debugRenderer.OpenHandPose())
+                Debug.Log("手势 -> Open hand");
         }
     }
 
