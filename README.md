@@ -5,17 +5,42 @@ This directory contains an experimental sample Unity Plugin, based on
 the experimental TF Lite C API. The sample demonstrates running inference within
 Unity by way of a C# `Interpreter` wrapper.
 
-Unity 2019.3
+## Changes to the original repo
+
+Used Plugins from asus4
+https://github.com/asus4/tf-lite-unity-sample/tree/master/Assets/TensorFlowLite/Plugins
+
+Interpreter script modified to use new plugins and added iOS compilation flags required for DllImport().
+Also handled TFLInterpreterErrorReporter() callback properly using PInvokeCallback.
+Removed crash due to vsprintf() in both InterpreterErrorReporter() and GetTensorName().
+Added a function GetVersion() to obtain the Tensorflow Lite version used.
+
+HandTracking and DebugRenderer scripts changed to cater iOS camera image rotation.
+
+## Verified platform
+
+Unity 2019.3.9, iOS 13.4.1 verified
+
+## To run the demo
+
+* Clone or download this repo
+* Open from Unity (choose a verion at or above 2019.3.3)
+* Open the HandTracking Scene in Asset/TensorFlowLite/Examples/HandTracking/Scenes
+* Open Build Settings... from File menu in Unity
+* Choose iOS and click Switch Ploatform
+* Uncheck all from Scenes in Build and click Add Open Scenes
+* Click Player Settings...
+* In Player Settings, make sure the followings:
+  * Auto Graphics API is Not checked
+  * API compatibility Level is .NET 4.x
+  * Target minimum iOS version is 13.4
+  * Architecture is ARM64
+  * Allow 'unsafe' code is Checked
+  * Strip Engine Code is Not checked
+* Go back to Build Settings and click Build and Run
+
 
 ## How to build tensorflow lite for Unity
-
-Note that the native TF Lite plugin(s) *must* be built before using the Unity
-Plugin, and placed in Assets/TensorFlowLite/SDK/Plugins/. For the editor (note
-that the generated shared library name and suffix are platform-dependent):
-
-```sh
-bazel build -c opt //tensorflow/lite/c:tensorflowlite_c
-```
 
 Pre-build library is included. see following instructions if you want to build your own lib.
 

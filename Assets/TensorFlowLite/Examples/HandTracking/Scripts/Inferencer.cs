@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using TensorFlowLite;
 using UnityEngine;
@@ -49,8 +49,11 @@ public class Inferencer
     public void Init(TextAsset palmDetection, TextAsset handLandmarks, bool useGPU,
                         int palmDetectionLerpFrameCount, int handLandmark3DLerpFrameCount) 
     {
+        Debug.Log("Init palm detection interpreter");
         palmDetectionInterpreter = InitInterpreter(palmDetection, useGPU);
+        Debug.Log("Init hand landmarks detection interpreter");
         handLandmarksInterpreter = InitInterpreter(handLandmarks, useGPU);
+        Debug.Log("Init anchors");
         InitAnchors(anchorsOutputs, NN_INPUT_WIDTH, NN_INPUT_HEIGHT);
 
         // Image inputs are normalized to [-1,1]
@@ -70,6 +73,7 @@ public class Inferencer
         var outputTensorCount = interpreter.GetOutputTensorCount();
         for(int i = 0; i < outputTensorCount; ++i){ DebugTensorData(interpreter, interpreter.GetOutputTensor(i)); }
 
+        Debug.Log($"TensorFlow Lite version: {interpreter.GetVersion()}");
         return interpreter;
     }
     private void DebugTensorData(Interpreter interpreter, IntPtr tensor) 

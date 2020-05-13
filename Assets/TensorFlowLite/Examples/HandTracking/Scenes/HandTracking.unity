@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -261,7 +261,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 5.27e-43, y: 0.0000000013914336, z: 5.27e-43, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: -4.4415697e-16, w: -8.077939e-28}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -356,7 +356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 1, z: 73.9}
+  m_LocalPosition: {x: 0, y: 1, z: 70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -395,9 +395,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1632907349
 MeshRenderer:
@@ -519,11 +519,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputW: 1920
   InputH: 1080
-  PalmDetection: {fileID: 4900000, guid: bf0689e53db493147b4ee0e7e10fd963, type: 3}
+  PalmDetection: {fileID: 4900000, guid: a8c2ee02093744892937030c24d9afc2, type: 3}
   HandLandmark3D: {fileID: 4900000, guid: e88f8712e4d3dca409a9671bc3c0068f, type: 3}
   PalmDetectionLerpFrameCount: 3
   HandLandmark3DLerpFrameCount: 4
-  UseGPU: 0
+  UseGPU: 1
 --- !u!114 &1632907355
 MonoBehaviour:
   m_ObjectHideFlags: 0
